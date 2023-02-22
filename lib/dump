@@ -1,0 +1,441 @@
+import 'package:flutter/material.dart';
+
+class NavDrawer extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          DrawerHeader(
+              child: Text("Side menu", style: TextStyle(color: Colors.white, fontSize: 25),),
+      decoration: BoxDecoration(
+        color: Colors.green,
+        image: DecorationImage(
+          fit: BoxFit.fill,
+          image: AssetImage('assets/roundel.jpg'))),
+          ),
+          ListTile(
+            leading: Icon(Icons.input),
+            title: Text("toggle"),
+            onTap: () => {},
+          ),
+          ListTile(
+            leading: Icon(Icons.train),
+            title: Text('District line'),
+            onTap: () => {Navigator.of(context).pop()}
+          ),
+          ListTile(
+              leading: Icon(Icons.train),
+              title: Text('Central line'),
+              onTap: () => {Navigator.of(context).pop()}
+          ),
+          ListTile(
+              leading: Icon(Icons.train),
+              title: Text('Northern line'),
+              onTap: () => {Navigator.of(context).pop()}
+          ),
+          ListTile(
+              leading: Icon(Icons.train),
+              title: Text('Jubilee line'),
+              onTap: () => {Navigator.of(context).pop()}
+          ),
+          ListTile(
+              leading: Icon(Icons.train),
+              title: Text('Picadilly line'),
+              onTap: () => {Navigator.of(context).pop()}
+          ),
+          ListTile(
+              leading: Icon(Icons.train),
+              title: Text('Bakerloo line'),
+              onTap: () => {Navigator.of(context).pop()}
+          ),
+          ListTile(
+              leading: Icon(Icons.train),
+              title: Text('Hammersmith & City line'),
+              onTap: () => {Navigator.of(context).pop()}
+          ),
+          ListTile(
+              leading: Icon(Icons.train),
+              title: Text('Circle line'),
+              onTap: () => {Navigator.of(context).pop()}
+          ),
+          ListTile(
+              leading: Icon(Icons.train),
+              title: Text('Metropolitan line'),
+              onTap: () => {Navigator.of(context).pop()}
+          ),
+          ListTile(
+              leading: Icon(Icons.train),
+              title: Text('London Overground line'),
+              onTap: () => {Navigator.of(context).pop()}
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// To parse this JSON data, do
+//
+//     final welcome = welcomeFromJson(jsonString);
+
+import 'dart:convert';
+
+List<Welcome> welcomeFromJson(String str) => List<Welcome>.from(json.decode(str).map((x) => Welcome.fromJson(x)));
+
+String welcomeToJson(List<Welcome> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
+class Welcome {
+  Welcome({
+    required this.type,
+    required this.id,
+    required this.name,
+    required this.modeName,
+    required this.disruptions,
+    required this.created,
+    required this.modified,
+    required this.lineStatuses,
+    required this.routeSections,
+    required this.serviceTypes,
+    required this.crowding,
+  });
+
+  String type;
+  String id;
+  String name;
+  String modeName;
+  List<dynamic> disruptions;
+  DateTime created;
+  DateTime modified;
+  List<LineStatus> lineStatuses;
+  List<dynamic> routeSections;
+  List<ServiceType> serviceTypes;
+  Crowding crowding;
+
+  factory Welcome.fromJson(Map<String, dynamic> json) => Welcome(
+    type: json["\u0024type"],
+    id: json["id"],
+    name: json["name"],
+    modeName: json["modeName"],
+    disruptions: List<dynamic>.from(json["disruptions"].map((x) => x)),
+    created: DateTime.parse(json["created"]),
+    modified: DateTime.parse(json["modified"]),
+    lineStatuses: List<LineStatus>.from(json["lineStatuses"].map((x) => LineStatus.fromJson(x))),
+    routeSections: List<dynamic>.from(json["routeSections"].map((x) => x)),
+    serviceTypes: List<ServiceType>.from(json["serviceTypes"].map((x) => ServiceType.fromJson(x))),
+    crowding: Crowding.fromJson(json["crowding"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "\u0024type": type,
+    "id": id,
+    "name": name,
+    "modeName": modeName,
+    "disruptions": List<dynamic>.from(disruptions.map((x) => x)),
+    "created": created.toIso8601String(),
+    "modified": modified.toIso8601String(),
+    "lineStatuses": List<dynamic>.from(lineStatuses.map((x) => x.toJson())),
+    "routeSections": List<dynamic>.from(routeSections.map((x) => x)),
+    "serviceTypes": List<dynamic>.from(serviceTypes.map((x) => x.toJson())),
+    "crowding": crowding.toJson(),
+  };
+}
+
+class Crowding {
+  Crowding({
+    required this.type,
+  });
+
+  String type;
+
+  factory Crowding.fromJson(Map<String, dynamic> json) => Crowding(
+    type: json["\u0024type"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "\u0024type": type,
+  };
+}
+
+class LineStatus {
+  LineStatus({
+    required this.type,
+    required this.id,
+    required this.statusSeverity,
+    required this.statusSeverityDescription,
+    required this.created,
+    required this.validityPeriods,
+  });
+
+  String type;
+  int id;
+  int statusSeverity;
+  String statusSeverityDescription;
+  DateTime created;
+  List<dynamic> validityPeriods;
+
+  factory LineStatus.fromJson(Map<String, dynamic> json) => LineStatus(
+    type: json["\u0024type"],
+    id: json["id"],
+    statusSeverity: json["statusSeverity"],
+    statusSeverityDescription: json["statusSeverityDescription"],
+    created: DateTime.parse(json["created"]),
+    validityPeriods: List<dynamic>.from(json["validityPeriods"].map((x) => x)),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "\u0024type": type,
+    "id": id,
+    "statusSeverity": statusSeverity,
+    "statusSeverityDescription": statusSeverityDescription,
+    "created": created.toIso8601String(),
+    "validityPeriods": List<dynamic>.from(validityPeriods.map((x) => x)),
+  };
+}
+
+class ServiceType {
+  ServiceType({
+    required this.type,
+    required this.name,
+    required this.uri,
+  });
+
+  String type;
+  String name;
+  String uri;
+
+  factory ServiceType.fromJson(Map<String, dynamic> json) => ServiceType(
+    type: json["\u0024type"],
+    name: json["name"],
+    uri: json["uri"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "\u0024type": type,
+    "name": name,
+    "uri": uri,
+  };
+}
+
+import 'dart:developer';
+import 'package:http/http.dart ' as http;
+import 'ApiConstants.dart';
+import 'user_model.dart';
+
+class ApiService {
+  Future<List<Welcome>?> getUsers() async {
+    try {
+      var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.disruptionEndPoints);
+      var response = await http.get(url);
+      if (response.statusCode == 200) {
+        final welcome = welcomeFromJson("district");
+        return welcome;
+      }
+    }
+    catch (e) {
+      log(e.toString());
+    }
+  }
+}
+
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+var apiFolder = "district";
+var apiKey = "a0896521114044f1861185577ec8b5b5";
+class serviceWrapper {
+  var BaseUrl = "https:/${apiFolder}/api.tfl.gov.uk/Line/Status?detail=true&app_key=${apiKey}";
+
+  Future<get_line>getLineCall() async {
+    var url = BaseUrl;
+    final body = {'id','name','tube','StatusSeverity','StatusSeverityDescription'};
+    final bodyjson = json.encode(body);
+
+    final response = await http.post(BaseUrl, headers: <String, String>{'Content-Type': 'application/json; charset=UTF-8' }, body: bodyjson);
+  }
+}
+
+import 'dart:convert';
+import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:undergrounder/API_service/user_model.dart';
+
+var apiFolder = "district";
+var apiKey = "a0896521114044f1861185577ec8b5b5";
+var BaseUrl = "https:/$apiFolder/api.tfl.gov.uk/Line/Status?detail=true&app_key=$apiKey";
+
+class ServiceWrapper {
+  @override
+  Future<Line>getLineCall() async {
+    var url = BaseUrl;
+
+    final body = {'id','name','tube','StatusSeverity','StatusSeverityDescription'};
+    final bodyjson = json.encode(body);
+
+    final response = await http.post(Uri.parse(url), headers: <String, String>{'Content-Type': 'application/json; charset=UTF-8' }, body: bodyjson);
+    print("url call from$url");
+    if (response.statusCode == 200) {
+      print("url hit successfully${response.body}");
+      String data = response.body;
+      print('prod name -'+jsonDecode(data));
+      return Line.fromMap(jsonDecode(response.body));
+    } else {
+      print('failed to get data');
+      throw Exception("Failed to get data");
+    }
+  }
+}
+
+
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+
+var apiFolder = "district";
+var apiKey = "a0896521114044f1861185577ec8b5b5";
+var BaseUrl = "https://api.tfl.gov.uk/Line/$apiFolder/Status?detail=true&app_key=$apiKey";
+Future<Album> fetchAlbum() async {
+  final response = await http
+      .get(Uri.parse(BaseUrl));
+
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    return Album.fromJson(jsonDecode(response.body));
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load album');
+  }
+}
+
+class Album {
+  final int id;
+  final String Name;
+  final int StatusSeverity;
+  final String StatusSeverityDescription;
+
+  const Album({
+    required this.Name,
+    required this.id,
+    required this.StatusSeverity,
+    required this.StatusSeverityDescription
+  });
+
+  factory Album.fromJson(Map<String, dynamic> json) {
+    return Album(
+      id: json['id'],
+      Name: json['Name'],
+      StatusSeverity: json['StatusSeverity'],
+      StatusSeverityDescription: json['StatusSeverityDescription']
+    );
+  }
+}
+
+void main() => runApp(const MyApp());
+
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  late Future<Album> futureAlbum;
+
+  @override
+  void initState() {
+    super.initState();
+    futureAlbum = fetchAlbum();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'District Line ',
+      theme: ThemeData(
+        primarySwatch: Colors.green,
+      ),
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('District Line'),
+        ),
+        body: Center(
+          child: FutureBuilder<Album>(
+            future: futureAlbum,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Text(snapshot.data.StatusSeverityDescription: json['StatusSeverityDescription']);
+              } else if (snapshot.hasError) {
+                return Text('${snapshot.error}');
+              }
+
+              // By default, show a loading spinner.
+              return const CircularProgressIndicator();
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class districtStatus extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: FutureBuilder<ServiceWrapper>(
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Text(snapshot.data!)
+          }
+        },
+      ),
+    )
+  }
+}
+
+import 'dart:convert';
+
+import 'dart:core';
+import 'dart:async';
+import 'package:http/http.dart' as http;
+
+class TflApi {
+  final String url = "https://api.tfl.gov.uk/Line/";
+  final String district = "district";
+  final String appkey = "a0896521114044f1861185577ec8b5b5";
+
+}
+
+Future<List> getLineStatus(List lineIds) async {
+  final implodedStations = lineIds.join(",");
+  final response = await this._getRequest("$implodedStations/status");
+
+  return jsonDecode(response.body);
+}
+
+Future<http.Response> _getRequest(path, {Map<String, String> params}) {
+  if (params == null) {
+    params = {};
+  }
+  params.addAll({'appkey': appkey});
+
+  final uri = Uri.https(url,)
+
+
+Container(
+        margin: const EdgeInsets.symmetric(
+            vertical: 20.0,
+            horizontal: 20.0
+        ),
+        height: 500.0,
+        child: SvgPicture.asset("assets/railmap1.svg", height: 500.0, width: 100, allowDrawingOutsideViewBox: true,)
+
+      ),
