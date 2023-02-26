@@ -5,37 +5,23 @@ import 'dart:core';
 import 'dart:async';
 
 class TflApi {
-  final String url = "api.tfl.gov.uk";
+  final String url = "api.tfl.gov.uk"; //base url
 
 
-  final String appKey = 'a0896521114044f1861185577ec8b5b5';
+  final String appKey = 'a0896521114044f1861185577ec8b5b5'; //oAuth key
 
-  Future<List> getLineStatus(List lineIds) async {
-    final implodedStations = lineIds.join(",");
-    final response = await this._getRequest('/line/$implodedStations/status');
+  Future<List> getLineStatus(List lineIds) async { //asynchronus keyword: waits for content before initialization.
+    final implodedStations = lineIds.join(","); //join operator
+    final response = await this._getRequest('/line/$implodedStations/status'); //encapsulation of vars into URL
 
     return jsonDecode(response.body);
   }
 
-  Future<List> getStopPointsByLocation(lat, lon) async {
-    try {
-      final geoParams = {
-        'stopTypes': 'NaptanMetroStation',
-        'lat': lat.toString(),
-        'lon': lon.toString(),
-        'radius': '2000'
-      };
-      final response = await this._getRequest('/StopPoint', params: geoParams);
-      final result = jsonDecode(response.body);
-      return result['stopPoints'];
-    } catch (error) {
-      throw error;
-    }
-  }
 
   Future<List> getLinesByStopPoint(String naptanId) async { //find statuses of lines (specified in array lineIds())
     try {
-      final response = await this._getRequest('/StopPoint/$naptanId'); //this variable is declared, however, waits for data from the http request to be sent before initalisation.
+      final response = await this._getRequest('/StopPoint/$naptanId');
+      //this variable is declared, however, waits for data from the http request to be sent before initalisation.
       final result = jsonDecode(response.body);
       return result['lines'];
     } catch (error) {
@@ -58,12 +44,12 @@ class TflApi {
     if (params == null) {
       params = {};
     }
-    params.addAll({'app_key': appKey});
+    params.addAll({'app_key': appKey}); //adding appKey onto my requests
 
-    final uri = Uri.https(url, path, params);
+    final uri = Uri.https(url, path, params); //path:request endpoints to form the full URl that the https service will use
     final headers = {'Content-Type': 'application/json'};
 
-    final request = http.get(uri, headers: headers);
+    final request = http.get(uri, headers: headers); //formation of GET requests
 
     request.catchError((error) {
       throw error;

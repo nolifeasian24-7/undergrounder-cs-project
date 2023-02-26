@@ -18,11 +18,11 @@ class NavDrawer extends StatelessWidget { //navigation menu drawer class
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
+      child: ListView( //ListView for the implementation of many buttons
         padding: EdgeInsets.zero,
-        children: <Widget>[
+        children: <Widget>[ //array of Widget elements (in this case, buttons)
           DrawerHeader(
-            child: Text("Side menu", style: TextStyle(color: Colors.black, fontSize: 25),),
+            child: Text("Side menu: more options", style: TextStyle(color: Colors.black, fontSize: 25),), //Text class and Attributes
             decoration: BoxDecoration(
                 color: Colors.green,
                 image: DecorationImage(
@@ -30,14 +30,10 @@ class NavDrawer extends StatelessWidget { //navigation menu drawer class
                     image: AssetImage('assets/roundel.jpg'))),
           ),
           ListTile(
-            leading: Icon(Icons.input),
-            title: Text("toggle"),
-            onTap: () => {},
-          ),
-          ListTile(
               leading: Icon(Icons.train),
               title: Text('District line'),
-              onTap: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (context) =>StatusIndicator(['District'], 0, api: TflApi(),))), //calling function responsible for http requests with parameters
+              onTap: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (context) =>StatusIndicator(['District'], 0, api: TflApi(),))),
+            //calling function responsible for http requests with parameters (StatusIndicator array, index (routeMapImages[], RouteColours, API Object
           ),
           ListTile(
               leading: Icon(Icons.train),
