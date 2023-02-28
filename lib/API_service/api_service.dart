@@ -29,12 +29,12 @@ class TflApi {
     }
   }
 
-  Future<List> searchStationByName(String name) async {
+  Future<Map<String, dynamic>> searchStationByName(String name) async {
     try {
-      final params = {'query': name, 'modes': 'tube,overground,tflrail'}; //Query URL with encapusalted endpoints
+      final params = {'query': name, 'modes': 'tube,overground'}; //Query URL with encapusalted endpoints
       final response = await this._getRequest('/StopPoint/Search', params: params);
-      final result = jsonDecode(response.body);
-      return result['matches'];
+      Map<String, dynamic>result = jsonDecode(response.body); //result is now a Map<String,dynamic size> that maps directly to the response
+      return result;
     } catch (error) {
       throw error;
     }

@@ -430,6 +430,8 @@ Future<http.Response> _getRequest(path, {Map<String, String> params}) {
   final uri = Uri.https(url,)
 
 
+
+
 Container(
         margin: const EdgeInsets.symmetric(
             vertical: 20.0,
@@ -439,3 +441,29 @@ Container(
         child: SvgPicture.asset("assets/railmap1.svg", height: 500.0, width: 100, allowDrawingOutsideViewBox: true,)
 
       ),
+
+GestureDetector(
+        onScaleUpdate: (ScaleUpdateDetails details) {
+          setState(() {
+            _zoom = details.scale; //touch detection applies my zoom functions onto the image (links to: pinch to zoom)
+          });
+        },
+        child: Transform.scale(
+          scale: _zoom,
+          child: SvgPicture.asset("assets/railmap1.svg", height: 500.0, width: 100.0,), //scrollable image asset
+        ),
+      ),
+
+   ClipRect(
+                child: GestureDetector(
+                  onScaleUpdate: (ScaleUpdateDetails details) {
+                    setState(() {
+                      _zoom = details.scale; //touch detection applies my zoom functions onto the image (links to: pinch to zoom)
+                    });
+                  },
+                  child: Transform.scale(
+                    scale: _zoom,
+                    child: SvgPicture.asset("assets/railmap1.svg", height: 500.0, width: 100.0,), //scrollable image asset
+                  ),
+                ),
+              ),
